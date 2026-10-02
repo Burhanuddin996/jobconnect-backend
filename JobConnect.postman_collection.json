@@ -1,0 +1,395 @@
+{
+  "info": {
+    "name": "JobConnect",
+    "description": "JobConnect Job Portal REST API - example requests for every endpoint.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "seekerToken", "value": "" },
+    { "key": "recruiterToken", "value": "" },
+    { "key": "companyId", "value": "1" },
+    { "key": "jobId", "value": "1" },
+    { "key": "candidateId", "value": "1" },
+    { "key": "skillId", "value": "1" },
+    { "key": "userId", "value": "1" },
+    { "key": "applicationId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "1 - Auth",
+      "item": [
+        {
+          "name": "Register Seeker",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mohammed\",\n  \"email\": \"seeker@example.com\",\n  \"password\": \"123456\",\n  \"phone\": \"9999999999\",\n  \"role\": \"JOB_SEEKER\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register Recruiter",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Priya Recruiter\",\n  \"email\": \"recruiter@example.com\",\n  \"password\": \"123456\",\n  \"phone\": \"8888888888\",\n  \"role\": \"RECRUITER\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login Seeker",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"seeker@example.com\",\n  \"password\": \"123456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login Recruiter",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"recruiter@example.com\",\n  \"password\": \"123456\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 - Users",
+      "item": [
+        {
+          "name": "Get all users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{seekerToken}}" }],
+            "url": "{{baseUrl}}/api/users"
+          }
+        },
+        {
+          "name": "Get user by id",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{seekerToken}}" }],
+            "url": "{{baseUrl}}/api/users/{{userId}}"
+          }
+        },
+        {
+          "name": "Update user",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{seekerToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/users/{{userId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mohammed Burhanuddin\",\n  \"phone\": \"9000000000\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete user",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{seekerToken}}" }],
+            "url": "{{baseUrl}}/api/users/{{userId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 - Candidate Profile",
+      "item": [
+        {
+          "name": "Create my profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{seekerToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/candidates/profile",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"headline\": \"Aspiring Java Backend Developer\",\n  \"summary\": \"ECE student building backend projects with Spring Boot.\",\n  \"location\": \"Hyderabad\",\n  \"education\": \"B.Tech ECE, Guru Nanak Institution\",\n  \"experienceYears\": 0,\n  \"resumeUrl\": \"https://example.com/resume.pdf\",\n  \"linkedinUrl\": \"https://linkedin.com/in/example\",\n  \"skillIds\": []\n}"
+            }
+          }
+        },
+        {
+          "name": "Get my profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{seekerToken}}" }],
+            "url": "{{baseUrl}}/api/candidates/profile"
+          }
+        },
+        {
+          "name": "Update my profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{seekerToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/candidates/profile",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"headline\": \"Java Backend Developer\",\n  \"summary\": \"Updated summary.\",\n  \"location\": \"Hyderabad\",\n  \"education\": \"B.Tech ECE\",\n  \"experienceYears\": 1,\n  \"resumeUrl\": \"https://example.com/resume-v2.pdf\",\n  \"linkedinUrl\": \"https://linkedin.com/in/example\",\n  \"skillIds\": [1]\n}"
+            }
+          }
+        },
+        {
+          "name": "Add skill to candidate",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{seekerToken}}" }],
+            "url": "{{baseUrl}}/api/candidates/{{candidateId}}/skills/{{skillId}}"
+          }
+        },
+        {
+          "name": "Remove skill from candidate",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{seekerToken}}" }],
+            "url": "{{baseUrl}}/api/candidates/{{candidateId}}/skills/{{skillId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 - Skills",
+      "item": [
+        {
+          "name": "Create skill",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{seekerToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/skills",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Java\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get all skills",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/skills"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5 - Company",
+      "item": [
+        {
+          "name": "Create company",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/companies",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"Acme Tech Pvt Ltd\",\n  \"description\": \"We build cool products.\",\n  \"website\": \"https://acmetech.example.com\",\n  \"location\": \"Hyderabad\",\n  \"industry\": \"Software\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get all companies",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/companies"
+          }
+        },
+        {
+          "name": "Get company by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/companies/{{companyId}}"
+          }
+        },
+        {
+          "name": "Update company",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/companies/{{companyId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"Acme Tech Pvt Ltd\",\n  \"description\": \"Updated description.\",\n  \"website\": \"https://acmetech.example.com\",\n  \"location\": \"Bengaluru\",\n  \"industry\": \"Software\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6 - Jobs",
+      "item": [
+        {
+          "name": "Create job",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/jobs?companyId={{companyId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Java Backend Developer\",\n  \"description\": \"Work on Spring Boot microservices.\",\n  \"location\": \"Hyderabad\",\n  \"salaryMin\": 400000,\n  \"salaryMax\": 700000,\n  \"experienceMin\": 0,\n  \"jobType\": \"FULL_TIME\",\n  \"active\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Get all jobs (paginated)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/jobs?page=0&size=10&sort=postedDate,desc"
+          }
+        },
+        {
+          "name": "Get job by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/jobs/{{jobId}}"
+          }
+        },
+        {
+          "name": "Update job",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/jobs/{{jobId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Senior Java Backend Developer\",\n  \"description\": \"Updated description.\",\n  \"location\": \"Hyderabad\",\n  \"salaryMin\": 500000,\n  \"salaryMax\": 900000,\n  \"experienceMin\": 2,\n  \"jobType\": \"FULL_TIME\",\n  \"active\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete job",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{recruiterToken}}" }],
+            "url": "{{baseUrl}}/api/jobs/{{jobId}}"
+          }
+        },
+        {
+          "name": "Search jobs",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/jobs/search?keyword=java&location=Hyderabad&page=0&size=10"
+          }
+        },
+        {
+          "name": "Filter jobs",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/jobs/filter?minSalary=300000&maxSalary=800000&jobType=FULL_TIME&page=0&size=10"
+          }
+        }
+      ]
+    },
+    {
+      "name": "7 - Applications",
+      "item": [
+        {
+          "name": "Apply to job",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{seekerToken}}" }],
+            "url": "{{baseUrl}}/api/jobs/{{jobId}}/apply"
+          }
+        },
+        {
+          "name": "My applications",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{seekerToken}}" }],
+            "url": "{{baseUrl}}/api/applications/my?page=0&size=10"
+          }
+        },
+        {
+          "name": "Applicants for a job (recruiter)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{recruiterToken}}" }],
+            "url": "{{baseUrl}}/api/jobs/{{jobId}}/applications"
+          }
+        },
+        {
+          "name": "Get application by id",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{recruiterToken}}" }],
+            "url": "{{baseUrl}}/api/applications/{{applicationId}}"
+          }
+        },
+        {
+          "name": "Update application status (recruiter)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/applications/{{applicationId}}/status",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"SHORTLISTED\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "8 - Security checks",
+      "item": [
+        {
+          "name": "Protected call with NO token (expect 401/403)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/candidates/profile"
+          }
+        },
+        {
+          "name": "Protected call with INVALID token (expect 401/403)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer invalid.token.value" }],
+            "url": "{{baseUrl}}/api/candidates/profile"
+          }
+        }
+      ]
+    }
+  ]
+}
